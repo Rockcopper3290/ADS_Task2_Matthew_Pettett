@@ -2,6 +2,9 @@
 //Name: Matthew Pettett
 //Student ID: A00051029
 
+//TODO: Un Matthew my code so that it looks nice/readable
+
+// Normal includes
 #include <iostream>
 #include <string>
 #include <fstream> //file reading/writing stuff
@@ -9,33 +12,39 @@
 #include <vector>  //for storage
 #include <chrono>  // for high_resolution_clock A.K.A.(time stuff)
 
+// Header includes
+#include "Node.h"
+#include "List.h"
+
+
 using namespace std;
 
-fstream question_1_InputFile;
-fstream question_1_OutputFile;
 
-int First, Second, Third;
+fstream question_1_InputFile;
+fstream question_1_OutputFile, question_2_OutputFile;
+
+int ascendingDescending, ifPartSorted, amountOfElements;
 vector<string> result;
 vector<int> elementsToSort;
 
-// will check if the values of First, Second and Third are valid 
-void firstQuestion_validValueCheck(int First, int Second, int Third)
+// will check if the values of ascendingDescending, ifPartSorted and amountOfElements are valid 
+void firstQuestion_validValueCheck(int First, int ifPartSorted, int amountOfElements)
 {
 	// if 1st or 2nd line do not have a 1 or 0 then the program will
 	// display the error and exit
-	if ((First != 0 && First != 1) || (Second != 0 && Second != 1))
+	if ((ascendingDescending != 0 && ascendingDescending != 1) || (ifPartSorted != 0 && ifPartSorted != 1))
 	{
 		cout << "\n\t!! Error !!" << endl;
 		cout << "\n Either line 1 or line 2 of Question 1 is not valid." << endl;
 		exit(1);
 	}
-	if (Third < 0)
+	if (amountOfElements < 0)
 	{
 		cout << "\n\t!! Error !!" << endl;
 		cout << "\n The 3rd line of Question 1 can not be a negative number." << endl;
 		exit(1);
 	}
-	if (elementsToSort.size() != Third)
+	if (elementsToSort.size() != amountOfElements)
 	{
 		cout << "\n\t!! Error !!" << endl;
 		cout << "\n The amount of data data elements given and the amout of elements declared do not correlate." << endl;
@@ -164,8 +173,6 @@ int main()
 				}
 			}
 
-			
-				
 				// This for loop takes the elements from 'result' asignes them to more appropriately
 				// named vairables
 				for (int i = 0; i < result.size(); i++)
@@ -175,15 +182,15 @@ int main()
 					// stoi takes a given string (that is a number) and converts it to an integer
 					if (i == 0)
 					{
-						First = stoi(result[i]);
+						ascendingDescending = stoi(result[i]);
 					}
 					else if (i == 1)
 					{
-						Second = stoi(result[i]);
+						ifPartSorted = stoi(result[i]);
 					}
 					else if (i == 2)
 					{
-						Third = stoi(result[i]);
+						amountOfElements = stoi(result[i]);
 					}
 					else
 					{
@@ -192,14 +199,14 @@ int main()
 				}
 			
 
-			// Will check if the values of First, Second and Third are valid inputs
-			firstQuestion_validValueCheck(First, Second, Third);
+			// Will check if the values of ascendingDescending, ifPartSorted and amountOfElements are valid inputs
+			firstQuestion_validValueCheck(ascendingDescending, ifPartSorted, amountOfElements);
 
-			//For First, if it is 0 --> sort in an ascending order
-			if (First == 0)
+			//For ascendingDescending, if it is 0 --> sort in an ascending order
+			if (ascendingDescending == 0)
 			{
 				// 0, 0 --> ascending, Bubble Sort
-				if (Second == 0) {
+				if (ifPartSorted == 0) {
 					// Records the functions start time
 					auto start = chrono::high_resolution_clock::now();
 						// Bubble Sort Function
@@ -211,7 +218,7 @@ int main()
 					question_1_OutputFile << chrono::duration_cast<chrono::microseconds>(end - start).count() << " ms" << endl;
 				}
 				// 0, 1 --> ascending, Quick Sort
-				else if (Second == 1) {
+				else if (ifPartSorted == 1) {
 					// Records the functions start time
 					auto start = chrono::high_resolution_clock::now();
 						// Quick Sort Function
@@ -224,11 +231,11 @@ int main()
 				}
 			}
 
-			//For First, if it is 1 --> sort in an descending order                 
-			else if (First == 1)
+			//For ascendingDescending, if it is 1 --> sort in an descending order                 
+			else if (ascendingDescending == 1)
 			{
 				// 1, 0 --> Descending, Bubble Sort
-				if (Second == 0) {
+				if (ifPartSorted == 0) {
 					// Records the functions start time
 					auto start = chrono::high_resolution_clock::now();
 						// Bubble Sort Function
@@ -240,7 +247,7 @@ int main()
 					question_1_OutputFile << chrono::duration_cast<chrono::microseconds>(end - start).count() << " ms" << endl;
 				}
 				// 1, 1 --> Descending, Quick Sort
-				else if (Second == 1){
+				else if (ifPartSorted == 1){
 					// Records the functions start time
 					auto start = chrono::high_resolution_clock::now();
 						// Quick Sort Function
@@ -266,6 +273,97 @@ int main()
 		question_1_OutputFile.close();
 		//End of output file Q-1
 	}
+
+
+	// Opens the Question 2 output file
+	question_2_OutputFile.open("output-a1q2.txt", ios::out);
+	// If file could not be opened, program will exit with an error message
+	if (!question_2_OutputFile.is_open())
+	{
+		cout << "\t!!ERROR!!" << endl;
+		cout << "\tQuestion 2 output file named 'output-a1q2.txt' was unable to be opened." << endl;
+		exit(1);
+	}
+	// Opens the Question 2 input file
+	ifstream question_2_InputFile;
+	question_2_InputFile.open("input-a1q2.txt");
+	// If file could not be opened, program will exit with an error message
+	if (!question_2_InputFile.is_open())
+	{
+		cout << "\t!!ERROR!!" << endl;
+		cout << "\tQuestion 2 input file named 'input-a1q2.txt' was unable to be opened." << endl;
+		exit(1);
+	}
+	int rngElements;
+	question_2_InputFile >> rngElements;
+
+	//using the insert/delete from front
+	List listFront;
+	//using the insert/delete from the end of the list
+	List listEnd;
+
+	// Random number generater RNG seeder
+	srand((unsigned int)time(0));
+	int insertData = 0;
+	// insertAtFront
+	{
+		// Records the functions start time
+		auto start = chrono::high_resolution_clock::now();
+		for (int i = 0; i < rngElements; i++)
+		{
+			insertData = rand();
+			listFront.insertAtFront(insertData);
+		}
+		// Records the functions finishing time
+		auto end = std::chrono::high_resolution_clock::now();
+		// Calculates how long the sorting algorithm took to execute and prints it to the output file
+		question_2_OutputFile << chrono::duration_cast<chrono::microseconds>(end - start).count() << " ms" << endl;
+	}
+
+	// insertAtEnd
+	{
+		// Records the functions start time
+		auto start = chrono::high_resolution_clock::now();
+		for (int i = 0; i < rngElements; i++)
+		{
+			insertData = rand();
+			listEnd.insertAtEnd(insertData);
+		}
+		// Records the functions finishing time
+		auto end = std::chrono::high_resolution_clock::now();
+		// Calculates how long the sorting algorithm took to execute and prints it to the output file
+		question_2_OutputFile << chrono::duration_cast<chrono::microseconds>(end - start).count() << " ms" << endl;
+	}
+
+	// deleteAtFront
+	{
+		// Records the functions start time
+		auto start = chrono::high_resolution_clock::now();
+		for (int i = 0; i < rngElements; i++)
+		{
+			listFront.deleteAtFront();
+		}
+		// Records the functions finishing time
+		auto end = std::chrono::high_resolution_clock::now();
+		// Calculates how long the sorting algorithm took to execute and prints it to the output file
+		question_2_OutputFile << chrono::duration_cast<chrono::microseconds>(end - start).count() << " ms" << endl;
+	}
+
+	// deleteAtEnd
+	{
+		// Records the functions start time
+		auto start = chrono::high_resolution_clock::now();
+		for (int i = 0; i < rngElements; i++)
+		{
+			listEnd.deleteAtEnd();
+		}
+		// Records the functions finishing time
+		auto end = std::chrono::high_resolution_clock::now();
+		// Calculates how long the sorting algorithm took to execute and prints it to the output file
+		question_2_OutputFile << chrono::duration_cast<chrono::microseconds>(end - start).count() << " ms" << endl;
+	}
+		question_2_InputFile.close();
+		question_2_OutputFile.close();
 
 
 
