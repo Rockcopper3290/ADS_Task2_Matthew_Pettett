@@ -1,5 +1,10 @@
+//Class: ADS 103
+//Name: Matthew Pettett
+//Student ID: A00051029
 #include "List.h"
 
+//Both count and displayList have no real purpose in the program
+// other then for the sake of debugging the other list functions
 int List::count()
 {
 	int counter = 0;
@@ -14,7 +19,6 @@ int List::count()
 	
 	return counter;
 }
-
 void List::displayList()
 {
 	Node* iterator = head;
@@ -30,6 +34,7 @@ void List::displayList()
 		node = node->next;
 	}*/
 }
+
 
 void List::insertAtFront(int data)
 {

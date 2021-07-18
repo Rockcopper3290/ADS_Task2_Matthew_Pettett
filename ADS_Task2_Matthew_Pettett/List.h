@@ -1,3 +1,6 @@
+//Class: ADS 103
+//Name: Matthew Pettett
+//Student ID: A00051029
 #pragma once
 #include <iostream>
 #include "Node.h"
